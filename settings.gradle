@@ -1,0 +1,3 @@
+rootProject.name = "EasyTrack"
+include ':sample'
+include ':easytrack'
