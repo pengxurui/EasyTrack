@@ -1,4 +1,4 @@
-package com.pengxr.sample.util
+package com.pengxr.easytask.util
 
 import android.app.Activity
 import android.content.Intent
@@ -19,8 +19,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
-import com.pengxr.sample.R
-import com.pengxr.sample.core.*
+import com.pengxr.easytask.R
+import com.pengxr.easytask.core.*
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -30,36 +30,27 @@ import kotlin.reflect.KProperty
  * Created by pengxr on 26/8/2021
  */
 
-private const val EXTRA_REFERRER_NODE = "referrer_node"
+private const val EXTRA_REFERRER_SNAPSHOT = "referrer_node"
 
 // -------------------------------------------------------------------------------------------------
 // Java
 // -------------------------------------------------------------------------------------------------
 
-fun track(view: View): TrackNode {
-    return TrackNode().apply {
+fun trackNode(view: View): TrackModel {
+    return TrackModel().apply {
         view.trackModel = this
     }
 }
 
-fun track(holder: RecyclerView.ViewHolder): TrackNode {
-    return TrackNode().apply {
+fun trackNode(holder: RecyclerView.ViewHolder): TrackModel {
+    return TrackModel().apply {
         holder.itemView.trackModel = this
     }
 }
 
-fun track(fragment: Fragment): TrackNode {
-    return TrackNode().apply {
+fun trackNode(fragment: Fragment): TrackModel {
+    return TrackModel().apply {
         fragment.requireView().trackModel = this
-    }
-}
-
-fun track(activity: ComponentActivity): TrackNode {
-    return PageTrackNode().apply {
-        activity.intent.getReferrerTrackNode()?.also {
-            this.referrerTrackNode = it
-        }
-        findRootView(activity).trackModel = this
     }
 }
 
@@ -67,52 +58,16 @@ fun track(activity: ComponentActivity): TrackNode {
 // Kotlin TrackNodeProperty
 // -------------------------------------------------------------------------------------
 
-fun ComponentActivity.track(trackMode: (() -> MutableMap<String, String>?)? = null): TrackNodeProperty<ComponentActivity, PageTrackNode> =
-    ActivityTrackNodeProperty factory@{ _: ComponentActivity ->
-        return@factory PageTrackNode().apply {
-            // 来源参数
-            intent.getReferrerTrackNode()?.also {
-                this.referrerTrackNode = it
-            }
-            // 页面参数映射
-            this.referrerKeyMap = trackMode?.invoke()
-        }
-    }
+fun <F : Fragment> F.track(): TrackNodeProperty<F> =
+    FragmentTrackNodeProperty()
 
-fun <F : Fragment> F.track(trackMode: ((TrackParams) -> Unit)? = null): TrackNodeProperty<F, TrackNode> =
-    FragmentTrackNodeProperty factory@{ _: Fragment ->
-        return@factory object : TrackNode() {
-            // Collect data.
-            override fun fillTrackParams(params: TrackParams) {
-                super.fillTrackParams(params)
-                trackMode?.invoke(params)
-            }
-        }
-    }
-
-fun RecyclerView.ViewHolder.track(trackMode: ((TrackParams) -> Unit)? = null): TrackNodeProperty<RecyclerView.ViewHolder, TrackNode> =
-    LazyTrackNodeProperty(noteFactory@{ _: RecyclerView.ViewHolder ->
-        object : TrackNode() {
-            // Collect data.
-            override fun fillTrackParams(params: TrackParams) {
-                super.fillTrackParams(params)
-                trackMode?.invoke(params)
-            }
-        }
-    }) viewFactory@{
+fun RecyclerView.ViewHolder.track(): TrackNodeProperty<RecyclerView.ViewHolder> =
+    LazyTrackNodeProperty() viewFactory@{
         return@viewFactory itemView
     }
 
-fun View.track(trackMode: ((TrackParams) -> Unit)? = null): TrackNodeProperty<View, TrackNode> =
-    LazyTrackNodeProperty(noteFactory@{ _: View ->
-        object : TrackNode() {
-            // Collect data.
-            override fun fillTrackParams(params: TrackParams) {
-                super.fillTrackParams(params)
-                trackMode?.invoke(params)
-            }
-        }
-    }) viewFactory@{
+fun View.track(): TrackNodeProperty<View> =
+    LazyTrackNodeProperty() viewFactory@{
         return@viewFactory it
     }
 
@@ -122,7 +77,7 @@ fun View.track(trackMode: ((TrackParams) -> Unit)? = null): TrackNodeProperty<Vi
 
 private const val TAG = "TrackNodeProperty"
 
-interface TrackNodeProperty<in R : Any, out T : TrackNode> : ReadOnlyProperty<R, T> {
+interface TrackNodeProperty<in R : Any> : ReadOnlyProperty<R, TrackModel> {
 
     /**
      * 视图节点
@@ -136,19 +91,19 @@ interface TrackNodeProperty<in R : Any, out T : TrackNode> : ReadOnlyProperty<R,
     fun clear()
 }
 
-class LazyTrackNodeProperty<in R : Any, out T : TrackNode>(
-    private val nodeFactory: (R) -> T, private val viewFactory: (R) -> View
-) : TrackNodeProperty<R, T> {
+class LazyTrackNodeProperty<in R : Any>(
+    private val viewFactory: (R) -> View
+) : TrackNodeProperty<R> {
 
-    private var trackNode: T? = null
+    private var trackNode: TrackModel? = null
 
     @Suppress("UNCHECKED_CAST")
     @MainThread
-    override fun getValue(thisRef: R, property: KProperty<*>): T {
+    override fun getValue(thisRef: R, property: KProperty<*>): TrackModel {
         // Already attached
         trackNode?.let { return it }
 
-        return nodeFactory(thisRef).also {
+        return TrackModel().also {
             this.trackNode = it
         }
     }
@@ -161,21 +116,19 @@ class LazyTrackNodeProperty<in R : Any, out T : TrackNode>(
     override fun getViewNode(thisRef: R) = viewFactory(thisRef)
 }
 
-abstract class LifecycleTrackNodeProperty<in R : Any, out T : TrackNode>(
-    private val nodeFactory: (R) -> T
-) : TrackNodeProperty<R, T> {
+abstract class LifecycleTrackNodeProperty<in R : Any> : TrackNodeProperty<R> {
 
-    private var trackNode: T? = null
+    private var trackNode: TrackModel? = null
 
     protected abstract fun getLifecycleOwner(thisRef: R): LifecycleOwner
 
     @MainThread
-    override fun getValue(thisRef: R, property: KProperty<*>): T {
+    override fun getValue(thisRef: R, property: KProperty<*>): TrackModel {
         // Already attached
         trackNode?.let { return it }
 
         val lifecycle = getLifecycleOwner(thisRef).lifecycle
-        val trackNode = nodeFactory(thisRef)
+        val trackNode = TrackModel()
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
             Log.w(
                 TAG,
@@ -197,7 +150,7 @@ abstract class LifecycleTrackNodeProperty<in R : Any, out T : TrackNode>(
     }
 
     private class ClearOnDestroyLifecycleObserver(
-        private val property: LifecycleTrackNodeProperty<*, *>
+        private val property: LifecycleTrackNodeProperty<*>
     ) : LifecycleObserver {
 
         private companion object {
@@ -212,20 +165,7 @@ abstract class LifecycleTrackNodeProperty<in R : Any, out T : TrackNode>(
     }
 }
 
-class ActivityTrackNodeProperty<in A : ComponentActivity, out T : TrackNode>(
-    nodeFactory: (A) -> T
-) : LifecycleTrackNodeProperty<A, T>(nodeFactory) {
-
-    override fun getLifecycleOwner(thisRef: A): LifecycleOwner {
-        return thisRef
-    }
-
-    override fun getViewNode(thisRef: A) = findRootView(thisRef)
-}
-
-class FragmentTrackNodeProperty<in F : Fragment, out T : TrackNode>(
-    nodeFactory: (F) -> T
-) : LifecycleTrackNodeProperty<F, T>(nodeFactory) {
+class FragmentTrackNodeProperty<in F : Fragment> : LifecycleTrackNodeProperty<F>() {
 
     override fun getLifecycleOwner(thisRef: F): LifecycleOwner {
         try {
@@ -238,9 +178,8 @@ class FragmentTrackNodeProperty<in F : Fragment, out T : TrackNode>(
     override fun getViewNode(thisRef: F) = thisRef.requireView()
 }
 
-class DialogFragmentTrackNodeProperty<in F : DialogFragment, out V : TrackNode>(
-    nodeFactory: (F) -> V
-) : LifecycleTrackNodeProperty<F, V>(nodeFactory) {
+class DialogFragmentTrackNodeProperty<in F : DialogFragment>(
+) : LifecycleTrackNodeProperty<F>() {
 
     override fun getLifecycleOwner(thisRef: F): LifecycleOwner {
         return if (thisRef.showsDialog) {
@@ -263,28 +202,27 @@ class DialogFragmentTrackNodeProperty<in F : DialogFragment, out V : TrackNode>(
 // Utils
 // -------------------------------------------------------------------------------------
 
-fun <V : View> View.requireViewByIdCompat(@IdRes id: Int): V {
+private fun <V : View> View.requireViewByIdCompat(@IdRes id: Int): V {
     return ViewCompat.requireViewById(this, id)
 }
 
-fun <V : View> Activity.requireViewByIdCompat(@IdRes id: Int): V {
+private fun <V : View> Activity.requireViewByIdCompat(@IdRes id: Int): V {
     return ActivityCompat.requireViewById(this, id)
 }
 
 /**
  * Utility to find root view for ViewBinding in Activity
  */
-fun findRootView(activity: Activity): View {
-    val contentView = activity.findViewById<ViewGroup>(android.R.id.content)
-    checkNotNull(contentView) { "Activity has no content view" }
-    return when (contentView.childCount) {
+private fun findRootView(activity: Activity?): View? {
+    val contentView = activity?.findViewById<ViewGroup>(android.R.id.content)
+    return when (contentView?.childCount) {
         1 -> contentView.getChildAt(0)
-        0 -> error("Content view has no children. Provide root view explicitly")
-        else -> error("More than one child view found in Activity content view")
+        0 -> null
+        else -> null
     }
 }
 
-fun DialogFragment.getRootView(viewBindingRootId: Int): View {
+private fun DialogFragment.getRootView(viewBindingRootId: Int): View {
     val dialog = checkNotNull(dialog) {
         "DialogFragment doesn't have dialog. Use viewBinding delegate after onCreateDialog"
     }
@@ -299,29 +237,29 @@ fun DialogFragment.getRootView(viewBindingRootId: Int): View {
 /**
  * 制作当前页面的快照节点，传递给后续页面
  */
-fun Intent.setReferrerTrackNode(node: TrackNode?) {
+fun Intent.setReferrerSnapshot(node: ITrackModel?) {
     if (null != node) {
-        setReferrerTrackNode(fillTrackParams(node))
+        setReferrerSnapshot(fillTrackParams(node))
     }
 }
 
-fun Intent.setReferrerTrackNode(node: View?) {
+fun Intent.setReferrerSnapshot(node: View?) {
     if (null != node) {
-        setReferrerTrackNode(fillTrackParams(node))
+        setReferrerSnapshot(fillTrackParams(node))
     }
 }
 
-fun Intent.setReferrerTrackNode(params: TrackParams?) {
+fun Intent.setReferrerSnapshot(params: TrackParams?) {
     if (null != params) {
-        putExtra(EXTRA_REFERRER_NODE, params)
+        putExtra(EXTRA_REFERRER_SNAPSHOT, params)
     }
 }
 
 /**
  * 获取上个页面的快照节点
  */
-fun Intent.getReferrerTrackNode(): TrackParams? {
-    return getSerializableExtra(EXTRA_REFERRER_NODE) as TrackParams?
+fun Intent.getReferrerSnapshot(): TrackParams? {
+    return getSerializableExtra(EXTRA_REFERRER_SNAPSHOT) as TrackParams?
 }
 
 /**
@@ -336,34 +274,21 @@ var View.trackModel: ITrackModel?
 /**
  * 事件上报
  */
-fun ComponentActivity?.trackEvent(eventName: String, params: TrackParams? = null) {
-    this?.let {
-        findRootView(it).doTrackEvent(eventName, params)
-    }
-}
+fun ComponentActivity?.trackEvent(eventName: String, params: TrackParams? = null) =
+    findRootView(this)?.doTrackEvent(eventName, params)
 
-fun Fragment?.trackEvent(eventName: String, params: TrackParams? = null) {
+fun Fragment?.trackEvent(eventName: String, params: TrackParams? = null) =
     this?.requireView()?.doTrackEvent(eventName, params)
-}
 
 fun RecyclerView.ViewHolder?.trackEvent(eventName: String, params: TrackParams? = null) {
     this?.itemView?.let {
         if (null == it.parent) {
-            it.post { doTrackEvent(eventName, params) }
+            it.post { it.doTrackEvent(eventName, params) }
         } else {
-            doTrackEvent(eventName, params)
+            it.doTrackEvent(eventName, params)
         }
     }
 }
 
-fun View?.trackEvent(eventName: String, params: TrackParams? = null) {
+fun View?.trackEvent(eventName: String, params: TrackParams? = null): TrackParams? =
     this?.doTrackEvent(eventName, params)
-}
-
-fun ITrackModel?.trackEvent(eventName: String, params: TrackParams? = null) {
-    this?.doTrackEvent(eventName, params)
-}
-
-//fun Any?.trackEvent(eventName: String, params: TrackParams? = null) {
-//    this?.doTrackEvent(eventName, params)
-//}

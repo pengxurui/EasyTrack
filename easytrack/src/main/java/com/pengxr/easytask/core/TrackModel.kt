@@ -1,4 +1,4 @@
-package com.pengxr.sample.core
+package com.pengxr.easytask.core
 
 import androidx.annotation.CallSuper
 import java.io.Serializable
@@ -7,7 +7,7 @@ import java.io.Serializable
  * 数据节点
  * Created by pengxr on 2021/8/18.
  */
-open class TrackNode : ITrackModel, Serializable {
+class TrackModel : ITrackModel, Serializable {
 
     protected val params by lazy {
         TrackParams()
@@ -36,17 +36,6 @@ open class TrackNode : ITrackModel, Serializable {
      * 获取参数，为空返回默认值
      */
     fun get(key: String, default: String?) = params.get(key, default)
-
-    /**
-     * 数据填充策略
-     */
-    @FillStrategy
-    var fillStrategy = FillStrategy.DEFAULT
-
-    /**
-     * 父节点，用于建立页面内责任链
-     */
-    var parent: TrackNode? = null
 
     /**
      * 数据填充

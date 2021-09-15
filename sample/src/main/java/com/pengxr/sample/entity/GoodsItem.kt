@@ -1,6 +1,7 @@
 package com.pengxr.sample.entity
 
 import android.os.Parcelable
+import androidx.annotation.DrawableRes
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -11,5 +12,7 @@ class GoodsItem(
     var id: String,
     var goods_name: String,
     var goods_content: String,
-    ) : Parcelable {
+    @DrawableRes
+    var goods_icon: Int
+) : Parcelable {
 }

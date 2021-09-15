@@ -2,28 +2,29 @@ package com.pengxr.sample.store.view
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter
-import com.pengxr.easytrack.databinding.StoreHomeActivityBinding
+import com.pengxr.easytask.util.trackEvent
+import com.pengxr.ktx.delegate.viewBinding
 import com.pengxr.sample.R
+import com.pengxr.sample.base.BaseActivity
+import com.pengxr.sample.databinding.StoreHomeActivityBinding
 import com.pengxr.sample.statistics.EventConstants.*
 import com.pengxr.sample.store.vm.StoreHomeViewModel
-import com.pengxr.sample.utils.VMCompat
-import com.pengxr.ktx.delegate.viewBinding
-import com.pengxr.sample.util.*
 import com.pengxr.sample.utils.ToastUtil
+import com.pengxr.sample.utils.VMCompat
 
 /**
  * Created by pengxr on 5/9/2021
  */
-class StoreHomeActivity : AppCompatActivity() {
+class StoreHomeActivity : BaseActivity() {
 
     private val viewModel by lazy {
         VMCompat.get(this, StoreHomeViewModel::class.java)
     }
-    private val trackNode by track()
 
     private val binding by viewBinding(StoreHomeActivityBinding::bind)
+
+    override fun getCurPage() = STORE_HOME_NAME
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,15 +34,10 @@ class StoreHomeActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        initTrack()
         initView()
         initObserve()
 
         fetchData()
-    }
-
-    private fun initTrack() {
-        trackNode[CUR_PAGE] = STORE_HOME_NAME
     }
 
     private fun initView() {
@@ -53,8 +49,8 @@ class StoreHomeActivity : AppCompatActivity() {
                     ivShare.trackEvent(SHARE_CLICK_STEP1)
                 }
             }
-            val titles = arrayOf("推荐"/*,"最新"*/)
-            val fragments = arrayOf(StoreRecommendFragment())
+            val titles = arrayOf("推荐","最新")
+            val fragments = arrayOf(StoreRecommendFragment(),StoreNewestFragment())
 
             for (title in titles) {
                 tabStoreHome.addTab(tabStoreHome.newTab().setText(title))
@@ -72,9 +68,9 @@ class StoreHomeActivity : AppCompatActivity() {
 
     private fun initObserve() {
         viewModel.storeDetailLiveData.observe(this) { detail ->
-            trackNode[STORE_ID] = detail.id
-            trackNode[STORE_NAME] = detail.store_name
-
+            // Add track params.
+            mTrackParams[STORE_ID] = detail.id
+            mTrackParams[STORE_NAME] = detail.store_name
             binding.titleStoreHome.tvTitle.text = detail.store_name
         }
     }

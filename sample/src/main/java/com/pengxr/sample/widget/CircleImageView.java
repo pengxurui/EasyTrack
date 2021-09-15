@@ -17,9 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
 
-
-import com.pengxr.sample.R;
-
 import androidx.appcompat.widget.AppCompatImageView;
 
 public class CircleImageView extends AppCompatImageView {
@@ -67,11 +64,11 @@ public class CircleImageView extends AppCompatImageView {
     public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, com.pengxr.sample.R.styleable.CircleImageView, defStyle, 0);
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_border_width, DEFAULT_BORDER_WIDTH);
-        mBorderColor = a.getColor(R.styleable.CircleImageView_border_color, DEFAULT_BORDER_COLOR);
-        mCornerWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_corner_width, DEFAULT_BORDER_WIDTH);
+        mBorderWidth = a.getDimensionPixelSize(com.pengxr.sample.R.styleable.CircleImageView_border_width, DEFAULT_BORDER_WIDTH);
+        mBorderColor = a.getColor(com.pengxr.sample.R.styleable.CircleImageView_border_color, DEFAULT_BORDER_COLOR);
+        mCornerWidth = a.getDimensionPixelSize(com.pengxr.sample.R.styleable.CircleImageView_corner_width, DEFAULT_BORDER_WIDTH);
 
         a.recycle();
 

@@ -6,13 +6,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.pengxr.easytask.util.track
 import com.pengxr.ktx.delegate.viewBinding
 import com.pengxr.sample.R
 import com.pengxr.sample.databinding.LayoutFragmentBinding
 import com.pengxr.sample.entity.GoodsItem
-import com.pengxr.sample.statistics.EventConstants.CUR_TAB
+import com.pengxr.sample.statistics.EventConstants
 import com.pengxr.sample.store.vm.StoreHomeViewModel
 import com.pengxr.sample.store.widget.GoodsViewHolder
 import com.pengxr.sample.store.widget.inflater
@@ -20,9 +19,9 @@ import com.pengxr.sample.utils.VMCompat
 import com.pengxr.sample.widget.SpacingDecoration
 
 /**
- * Created by pengxr on 5/9/2021
+ * Created by pengxr on 11/9/2021
  */
-class StoreRecommendFragment : Fragment(R.layout.layout_fragment) {
+class StoreNewestFragment : Fragment(R.layout.layout_fragment) {
 
     private val viewModel by lazy {
         VMCompat.get(requireActivity(), StoreHomeViewModel::class.java)
@@ -47,21 +46,21 @@ class StoreRecommendFragment : Fragment(R.layout.layout_fragment) {
 
     private fun initView() {
         with(binding) {
-            rv.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+            rv.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             rv.addItemDecoration(SpacingDecoration(requireContext(), 8, 8).apply {
                 setOutSpacing(requireContext(), 8, 8, 8, 8)
             })
             rv.adapter = adapter
         }
 
-        viewModel.recommendGoodsList.observe(viewLifecycleOwner) { list ->
+        viewModel.newestGoodsList.observe(viewLifecycleOwner) { list ->
             adapter.setData(list)
         }
-        viewModel.fetchRecommendGoodsList(requireContext())
+        viewModel.fetchNewestGoodsList(requireContext())
     }
 
     private fun initTrack() {
-        trackNode[CUR_TAB] = "Recommend"
+        trackNode[EventConstants.CUR_TAB] = "Newest"
     }
 
     private class GoodsAdapter : RecyclerView.Adapter<GoodsViewHolder>() {

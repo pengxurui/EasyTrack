@@ -18,7 +18,6 @@ public class EventConstants {
     // Click on a Share button, and choose a share platform.
     public static final String SHARE_CLICK_STEP2 = "share_click_step_2";
 
-
     // ---------------------------------------------------------------------------------------------
     // Params Key
     // ---------------------------------------------------------------------------------------------
@@ -35,8 +34,6 @@ public class EventConstants {
 
     public static final String STORE_ID = "store_id";
     public static final String STORE_NAME = "store_name";
-    public static final String USER_ID = "user_id";
-    public static final String USER_NAME = "user_name";
     public static final String GOODS_ID = "goods_id";
     public static final String GOODS_NAME = "goods_name";
 
@@ -46,5 +43,4 @@ public class EventConstants {
 
     public static final String STORE_HOME_NAME = "store_home";
     public static final String GOODS_DETAIL_NAME = "goods_detail";
-
 }

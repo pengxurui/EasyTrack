@@ -1,8 +1,10 @@
 package com.pengxr.sample.statistics
 
 import android.util.Log
-import com.pengxr.sample.core.ITrackProvider
-import com.pengxr.sample.core.TrackParams
+import com.pengxr.easytask.core.ITrackProvider
+import com.pengxr.easytask.core.TrackParams
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Mock Umeng SDK.
@@ -12,73 +14,47 @@ import com.pengxr.sample.core.TrackParams
 class UmengProvider : ITrackProvider() {
 
     companion object {
-        private const val TAG = "Umeng"
-
-        // Mock user login status.
-        private var userId: String? = null
-
-        // Mock internal datas.
-        private val data = HashMap<String, String?>()
+        const val TAG = "Umeng"
     }
 
+    // Mock internal datas.
+    private val data = HashMap<String, String?>()
+
     /**
-     * 是否开启数据统计
+     * Enable data statistics or not.
      */
     override var enabled = true
 
     /**
-     * 初始化回调
+     * The tag of this provider.
+     */
+    override var name = TAG
+
+    /**
+     * Init the provider.
      */
     override fun onInit() {
-        Log.d(TAG, "初始化")
+        Log.d(TAG, "Init Umeng provider.")
     }
 
     /**
-     * 销毁回调（几乎不可能回调，仅用于实现逻辑闭环）
-     */
-    override fun onClear() {
-        Log.d(TAG, "销毁")
-    }
-
-    /**
-     * 用户登录回调
-     * 为了准确记录登录用户的行为信息，建议在以下时机各调用一次 login() 方法：
-     * 1、用户在注册成功时
-     * 2、用户登录成功时
-     * 3、已登录用户每次启动 App 时
-     */
-    override fun onUserLogin(userId: String) {
-        UmengProvider.userId = userId
-    }
-
-    /**
-     * 注册 / 注销公共事件
-     */
-    override fun registerSuperProperties(params: TrackParams) {
-        for ((key, value) in params) {
-            data[key] = value
-        }
-    }
-
-    override fun registerSuperProperty(key: String, value: String) {
-        data[key] = value
-    }
-
-    override fun unRegisterSuperProperties(key: String) {
-        data.remove(key)
-    }
-
-    /**
-     * 事件上报
+     * Do event track.
      */
     override fun onEvent(eventName: String, params: TrackParams) {
         Log.d(TAG, params.toString())
+
+        registerSuperProperties()
     }
 
-    /**
-     * 合并事件参数
-     */
-    override fun onMergeEvent(params: TrackParams): String {
-        return params.toString()
+    private fun registerSuperProperties() {
+        val params = TrackParams()
+        params[EventConstants.LONGITUDE] = "113.9"
+        params[EventConstants.LATITUDE] = 22.5
+        params[EventConstants.CITY_ID] = "1"
+        params[EventConstants.CITY_NAME] = "深圳市"
+        params[EventConstants.DEVICE_ID] = UUID.randomUUID()
+        for ((key, value) in params) {
+            data[key] = value
+        }
     }
 }

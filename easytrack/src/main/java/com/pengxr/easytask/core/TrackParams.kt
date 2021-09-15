@@ -1,8 +1,6 @@
-package com.pengxr.sample.core
+package com.pengxr.easytask.core
 
-import androidx.collection.ArrayMap
 import java.io.Serializable
-import java.lang.StringBuilder
 
 /**
  * Track Params attach on the node
@@ -11,12 +9,12 @@ import java.lang.StringBuilder
 open class TrackParams : Iterable<Any?>, Serializable {
 
     /**
-     * internal data.
+     * Internal data.
      */
-    private val data = ArrayMap<String, String?>()
+    private val data = HashMap<String, String?>()
 
     /**
-     * set anywhere.
+     * Set anywhere.
      */
     operator fun set(key: String, value: Any?): TrackParams {
         data[key] = value?.toString()
@@ -24,7 +22,7 @@ open class TrackParams : Iterable<Any?>, Serializable {
     }
 
     /**
-     * get
+     * Get by key.
      */
     operator fun get(key: String): String? = data[key]
 

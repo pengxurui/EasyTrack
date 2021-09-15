@@ -1,4 +1,4 @@
-package com.pengxr.sample.core
+package com.pengxr.easytask.core
 
 import java.io.Serializable
 

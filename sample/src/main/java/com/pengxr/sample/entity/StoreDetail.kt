@@ -9,9 +9,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 class StoreDetail(
-
     var id: String,
     var store_name: String,
-
     ) : Parcelable {
 }

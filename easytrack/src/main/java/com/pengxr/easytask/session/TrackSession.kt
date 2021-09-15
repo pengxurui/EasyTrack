@@ -1,6 +1,6 @@
-package com.pengxr.sample.session
+package com.pengxr.easytask.session
 
-import com.pengxr.sample.core.TrackParams
+import com.pengxr.easytask.core.TrackParams
 
 /**
  * 埋点会话

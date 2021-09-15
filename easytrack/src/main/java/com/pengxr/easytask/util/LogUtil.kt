@@ -1,4 +1,4 @@
-package com.pengxr.sample.util
+package com.pengxr.easytask.util
 
 /**
  *

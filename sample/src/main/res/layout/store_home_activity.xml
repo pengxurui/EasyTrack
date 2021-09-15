@@ -10,50 +10,26 @@
         android:id="@+id/title_store_home"
         layout="@layout/layout_title" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coor_doc_home"
+    <!-- 选项卡 -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_store_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/title_store_home"
+        app:tabIndicatorColor="#ECFDFD"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabTextColor="#333333" />
+
+    <!-- ViewPager -->
+
+    <com.pengxr.sample.widget.HackyViewPager
+        android:id="@+id/pager_store_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:focusable="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_store_home">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_store_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:elevation="0dp">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapising_store_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-            <!-- 选项卡 -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_store_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorColor="#ECFDFD"
-                app:tabIndicatorHeight="3dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="#333333" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <!-- ViewPager -->
-
-        <com.pengxr.sample.widget.HackyViewPager
-            android:id="@+id/pager_store_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="false"
-            android:visibility="visible"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tab_store_home" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
