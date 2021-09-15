@@ -1,7 +1,7 @@
-package com.pengxr.easytask.session
+package com.pengxr.easytrack.session
 
-import com.pengxr.easytask.core.ITrackModel
-import com.pengxr.easytask.core.TrackParams
+import com.pengxr.easytrack.core.ITrackModel
+import com.pengxr.easytrack.core.TrackParams
 
 /**
  * 埋点事件

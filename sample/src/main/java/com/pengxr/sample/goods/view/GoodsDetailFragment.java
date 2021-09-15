@@ -5,19 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pengxr.easytask.core.ITrackModel;
-import com.pengxr.easytask.core.TrackParams;
-import com.pengxr.easytask.impl.BaseTrackFragment;
-import com.pengxr.easytask.util.EasyTrackUtilsKt;
+import com.pengxr.easytrack.core.ITrackModel;
+import com.pengxr.easytrack.core.TrackParams;
+import com.pengxr.easytrack.util.EasyTrackUtilsKt;
 import com.pengxr.sample.R;
-import com.pengxr.sample.databinding.GoodsDetailActivityBinding;
 import com.pengxr.sample.databinding.GoodsDetailFragmentBinding;
 import com.pengxr.sample.entity.GoodsItem;
 import com.pengxr.sample.goods.vm.GoodsDetailViewModel;
 import com.pengxr.sample.statistics.EventConstants;
 import com.pengxr.sample.utils.VMCompat;
-
-import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +21,6 @@ import androidx.fragment.app.Fragment;
 
 import static com.pengxr.sample.statistics.EventConstants.GOODS_DETAIL_CLICK;
 import static com.pengxr.sample.statistics.EventConstants.GOODS_DETAIL_IMAGE_NAME;
-import static com.pengxr.sample.statistics.EventConstants.SHARE_CLICK_STEP1;
 
 /**
  * Created by pengxr on 10/9/2021

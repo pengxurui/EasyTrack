@@ -1,4 +1,4 @@
-package com.pengxr.easytask.util
+package com.pengxr.easytrack.util
 
 import android.app.Activity
 import android.content.Intent
@@ -19,8 +19,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
-import com.pengxr.easytask.R
-import com.pengxr.easytask.core.*
+import com.pengxr.easytrack.R
+import com.pengxr.easytrack.core.*
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

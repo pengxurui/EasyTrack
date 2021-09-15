@@ -7,13 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-import com.pengxr.easytask.util.track
+import com.pengxr.easytrack.util.track
 import com.pengxr.ktx.delegate.viewBinding
 import com.pengxr.sample.R
 import com.pengxr.sample.databinding.LayoutFragmentBinding
 import com.pengxr.sample.entity.GoodsItem
 import com.pengxr.sample.statistics.EventConstants.CUR_PAGE
-import com.pengxr.sample.statistics.EventConstants.CUR_TAB
 import com.pengxr.sample.store.vm.StoreHomeViewModel
 import com.pengxr.sample.store.widget.GoodsViewHolder
 import com.pengxr.sample.store.widget.inflater

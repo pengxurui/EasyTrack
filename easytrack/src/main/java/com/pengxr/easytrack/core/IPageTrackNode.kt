@@ -1,4 +1,4 @@
-package com.pengxr.easytask.core
+package com.pengxr.easytrack.core
 
 /**
  * Created by pengxr on 10/9/2021

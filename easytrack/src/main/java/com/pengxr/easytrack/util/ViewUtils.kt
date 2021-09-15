@@ -1,4 +1,4 @@
-package com.pengxr.easytask.util
+package com.pengxr.easytrack.util
 
 import android.app.Activity
 import android.content.ContextWrapper

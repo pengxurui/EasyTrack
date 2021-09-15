@@ -1,9 +1,9 @@
-package com.pengxr.easytask.core
+package com.pengxr.easytrack.core
 
 import android.util.Log
 import android.view.View
-import com.pengxr.easytask.util.getActivityFromView
-import com.pengxr.easytask.util.trackModel
+import com.pengxr.easytrack.util.getActivityFromView
+import com.pengxr.easytrack.util.trackModel
 
 /**
  * Created by pengxr on 2021/8/18.

@@ -1,8 +1,8 @@
 package com.pengxr.sample.statistics
 
 import android.util.Log
-import com.pengxr.easytask.core.ITrackProvider
-import com.pengxr.easytask.core.TrackParams
+import com.pengxr.easytrack.core.ITrackProvider
+import com.pengxr.easytrack.core.TrackParams
 import java.util.*
 import kotlin.collections.HashMap
 

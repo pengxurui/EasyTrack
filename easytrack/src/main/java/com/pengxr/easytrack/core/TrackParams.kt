@@ -1,4 +1,4 @@
-package com.pengxr.easytask.core
+package com.pengxr.easytrack.core
 
 import java.io.Serializable
 

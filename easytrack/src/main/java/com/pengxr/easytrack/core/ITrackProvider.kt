@@ -1,4 +1,4 @@
-package com.pengxr.easytask.core
+package com.pengxr.easytrack.core
 
 import androidx.annotation.UiThread
 

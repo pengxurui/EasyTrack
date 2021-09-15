@@ -1,8 +1,8 @@
 package com.pengxr.sample.base
 
 import androidx.annotation.CallSuper
-import com.pengxr.easytask.core.TrackParams
-import com.pengxr.easytask.impl.BaseTrackActivity
+import com.pengxr.easytrack.core.TrackParams
+import com.pengxr.easytrack.impl.BaseTrackActivity
 import com.pengxr.sample.statistics.EventConstants.CUR_PAGE
 
 /**

@@ -1,13 +1,13 @@
-package com.pengxr.easytask.impl
+package com.pengxr.easytrack.impl
 
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.pengxr.easytask.core.ITrackModel
-import com.pengxr.easytask.core.TrackParams
-import com.pengxr.easytask.util.trackModel
+import com.pengxr.easytrack.core.ITrackModel
+import com.pengxr.easytrack.core.TrackParams
+import com.pengxr.easytrack.util.trackModel
 
 /**
  * Base Fragment with event track，You don't have to used it.

@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.pengxr.easytask.core.TrackParams;
-import com.pengxr.easytask.util.EasyTrackUtilsKt;
+import com.pengxr.easytrack.core.TrackParams;
+import com.pengxr.easytrack.util.EasyTrackUtilsKt;
 import com.pengxr.sample.base.BaseActivity;
 import com.pengxr.sample.databinding.GoodsDetailActivityBinding;
 import com.pengxr.sample.entity.GoodsItem;
 import com.pengxr.sample.goods.vm.GoodsDetailViewModel;
-import com.pengxr.sample.statistics.EventConstants;
 import com.pengxr.sample.utils.ToastUtil;
 import com.pengxr.sample.utils.VMCompat;
 

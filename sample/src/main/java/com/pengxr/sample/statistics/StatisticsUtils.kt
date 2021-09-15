@@ -1,7 +1,7 @@
 package com.pengxr.sample.base
 
 import android.content.Context
-import com.pengxr.easytask.core.EasyTrack
+import com.pengxr.easytrack.core.EasyTrack
 import com.pengxr.sample.BuildConfig
 import com.pengxr.sample.statistics.EventConstants.*
 import com.pengxr.sample.statistics.SensorProvider

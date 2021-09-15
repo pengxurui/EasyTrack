@@ -1,14 +1,14 @@
-package com.pengxr.easytask.impl
+package com.pengxr.easytrack.impl
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import com.pengxr.easytask.core.IPageTrackNode
-import com.pengxr.easytask.core.ITrackNode
-import com.pengxr.easytask.core.EasyTrack
-import com.pengxr.easytask.core.TrackParams
-import com.pengxr.easytask.util.getReferrerParams
+import com.pengxr.easytrack.core.IPageTrackNode
+import com.pengxr.easytrack.core.ITrackNode
+import com.pengxr.easytrack.core.EasyTrack
+import com.pengxr.easytrack.core.TrackParams
+import com.pengxr.easytrack.util.getReferrerParams
 
 /**
  * Base Activity with event track，you don't have to used it.

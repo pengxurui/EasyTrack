@@ -3,7 +3,7 @@ package com.pengxr.sample.store.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentPagerAdapter
-import com.pengxr.easytask.util.trackEvent
+import com.pengxr.easytrack.util.trackEvent
 import com.pengxr.ktx.delegate.viewBinding
 import com.pengxr.sample.R
 import com.pengxr.sample.base.BaseActivity

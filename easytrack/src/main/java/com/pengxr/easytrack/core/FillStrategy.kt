@@ -1,8 +1,8 @@
-package com.pengxr.easytask.core
+package com.pengxr.easytrack.core
 
 import androidx.annotation.IntDef
-import com.pengxr.easytask.core.FillStrategy.Companion.DEFAULT
-import com.pengxr.easytask.core.FillStrategy.Companion.NON_CACHE
+import com.pengxr.easytrack.core.FillStrategy.Companion.DEFAULT
+import com.pengxr.easytrack.core.FillStrategy.Companion.NON_CACHE
 
 /**
  * 数据填充策略
