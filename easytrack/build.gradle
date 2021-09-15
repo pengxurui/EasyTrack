@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven' // GitHub Maven 插件
 apply from: '../config.gradle'
+
+group = 'com.github.pengxurui' // github 的用户名
 
 project.ext.configLibModule project
 
