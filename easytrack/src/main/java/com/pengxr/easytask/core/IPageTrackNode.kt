@@ -7,5 +7,5 @@ interface IPageTrackNode : ITrackModel {
 
     fun referrerKeyMap(): Map<String, String>?
 
-    fun referrerTrackNode(): ITrackNode?
+    fun referrerSnapshot(): ITrackNode?
 }

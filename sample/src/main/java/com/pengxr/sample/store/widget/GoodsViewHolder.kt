@@ -15,7 +15,7 @@ import com.pengxr.ktx.delegate.viewBinding
 import com.pengxr.sample.R
 import com.pengxr.sample.databinding.StoreHomeGoodsItemBinding
 import com.pengxr.sample.entity.GoodsItem
-import com.pengxr.sample.goods.GoodsDetailActivity
+import com.pengxr.sample.goods.view.GoodsDetailActivity
 import com.pengxr.sample.statistics.EventConstants.*
 import com.pengxr.sample.utils.DensityUtil
 
@@ -37,7 +37,9 @@ class GoodsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     init {
         itemView.setOnClickListener {
             mItem?.let { item ->
-                GoodsDetailActivity.start(itemView.context, itemView.trackEvent(GOODS_CLICK))
+                itemView.trackEvent(GOODS_CLICK)?.also {
+                    GoodsDetailActivity.start(itemView.context, item, it)
+                }
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

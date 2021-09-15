@@ -10,13 +10,15 @@ public class EventConstants {
     // ---------------------------------------------------------------------------------------------
 
     // Click on a goods item.
-    public static final String GOODS_CLICK = "goods_detail";
+    public static final String GOODS_CLICK = "goods_click";
     // Expose a goods item.
     public static final String GOODS_EXPOSE = "goods_expose";
     // Click on a share button.
     public static final String SHARE_CLICK_STEP1 = "share_click_step_1";
     // Click on a Share button, and choose a share platform.
     public static final String SHARE_CLICK_STEP2 = "share_click_step_2";
+    // Click on a goods detail.
+    public static final String GOODS_DETAIL_CLICK = "goods_detail_click";
 
     // ---------------------------------------------------------------------------------------------
     // Params Key
@@ -43,4 +45,5 @@ public class EventConstants {
 
     public static final String STORE_HOME_NAME = "store_home";
     public static final String GOODS_DETAIL_NAME = "goods_detail";
+    public static final String GOODS_DETAIL_IMAGE_NAME = "goods_detail_image";
 }

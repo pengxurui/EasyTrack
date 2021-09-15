@@ -44,13 +44,11 @@ class StoreHomeActivity : BaseActivity() {
         with(binding) {
             titleStoreHome.ivBack.visibility = View.INVISIBLE
             titleStoreHome.ivShare.setOnClickListener { ivShare ->
-                viewModel.storeDetail?.let { detail ->
-                    ToastUtil.toast(this@StoreHomeActivity, "分享商店：${detail.store_name}")
-                    ivShare.trackEvent(SHARE_CLICK_STEP1)
-                }
+                ToastUtil.toast(this@StoreHomeActivity, "分享商店")
+                ivShare.trackEvent(SHARE_CLICK_STEP1)
             }
-            val titles = arrayOf("推荐","最新")
-            val fragments = arrayOf(StoreRecommendFragment(),StoreNewestFragment())
+            val titles = arrayOf("推荐", "最新")
+            val fragments = arrayOf(StoreRecommendFragment(), StoreNewestFragment())
 
             for (title in titles) {
                 tabStoreHome.addTab(tabStoreHome.newTab().setText(title))
@@ -69,8 +67,8 @@ class StoreHomeActivity : BaseActivity() {
     private fun initObserve() {
         viewModel.storeDetailLiveData.observe(this) { detail ->
             // Add track params.
-            mTrackParams[STORE_ID] = detail.id
-            mTrackParams[STORE_NAME] = detail.store_name
+            trackParams[STORE_ID] = detail.id
+            trackParams[STORE_NAME] = detail.store_name
             binding.titleStoreHome.tvTitle.text = detail.store_name
         }
     }

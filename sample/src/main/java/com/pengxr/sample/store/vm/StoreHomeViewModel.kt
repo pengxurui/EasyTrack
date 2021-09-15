@@ -22,7 +22,7 @@ class StoreHomeViewModel : ViewModel() {
         get() = storeDetailLiveData.value
 
     fun fetchData(context: Context) {
-        storeDetailLiveData.value = StoreDetail("10000", "小熊商店")
+        storeDetailLiveData.value = StoreDetail("10000", "商店")
     }
 
     fun fetchRecommendGoodsList(context: Context) {

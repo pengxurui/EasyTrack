@@ -8,7 +8,7 @@ import com.pengxr.easytask.core.IPageTrackNode
 import com.pengxr.easytask.core.ITrackNode
 import com.pengxr.easytask.core.EasyTrack
 import com.pengxr.easytask.core.TrackParams
-import com.pengxr.easytask.util.getReferrerSnapshot
+import com.pengxr.easytask.util.getReferrerParams
 
 /**
  * Base Activity with event track，you don't have to used it.
@@ -21,9 +21,10 @@ abstract class BaseTrackActivity : AppCompatActivity, IPageTrackNode {
 
     constructor (@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
 
-    private var referrerTrackNode: ITrackNode? = null
+    // The snapshot of referrer page node.
+    private var referrerSnapshot: ITrackNode? = null
 
-    protected val mTrackParams by lazy {
+    protected val trackParams by lazy {
         TrackParams()
     }
 
@@ -34,9 +35,9 @@ abstract class BaseTrackActivity : AppCompatActivity, IPageTrackNode {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Init referrer track node.
-        getReferrerParams()?.let { referrerParams ->
-            referrerTrackNode = object : ITrackNode {
+        // Snapshot for referrer page node.
+        getReferrerSnapshot()?.let { referrerParams ->
+            referrerSnapshot = object : ITrackNode {
                 override val parent: ITrackNode? = null
 
                 override fun fillTrackParams(params: TrackParams) {
@@ -51,16 +52,15 @@ abstract class BaseTrackActivity : AppCompatActivity, IPageTrackNode {
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Get referrer params.
+     * Get params from referrer page node.
      */
-    fun getReferrerParams(): TrackParams? =
-        intent.getReferrerSnapshot()?.let { referrerParams ->
-            TrackParams().apply {
-                // Fill referrer params.
-                fillReferrerKeyMap(referrerKeyMap(), referrerParams, this)
-                fillReferrerKeyMap(EasyTrack.referrerKeyMap, referrerParams, this)
-            }
+    fun getReferrerSnapshot(): TrackParams? = intent.getReferrerParams()?.let { referrerParams ->
+        TrackParams().apply {
+            // Fill referrer params.
+            fillReferrerKeyMap(referrerKeyMap(), referrerParams, this)
+            fillReferrerKeyMap(EasyTrack.referrerKeyMap, referrerParams, this)
         }
+    }
 
     // ---------------------------------------------------------------------------------------------
     // IPageTrackNode
@@ -68,11 +68,11 @@ abstract class BaseTrackActivity : AppCompatActivity, IPageTrackNode {
 
     override fun referrerKeyMap(): Map<String, String>? = null
 
-    override fun referrerTrackNode(): ITrackNode? = referrerTrackNode
+    override fun referrerSnapshot(): ITrackNode? = referrerSnapshot
 
     @CallSuper
     override fun fillTrackParams(params: TrackParams) {
-        params.merge(mTrackParams)
+        params.merge(trackParams)
         // You can expose api here, it makes subclasses more convenient to pass parameters.
     }
 
@@ -81,13 +81,15 @@ abstract class BaseTrackActivity : AppCompatActivity, IPageTrackNode {
     // ---------------------------------------------------------------------------------------------
 
     private fun fillReferrerKeyMap(
-        map: Map<String, String>?,
-        referrerParams: TrackParams,
-        params: TrackParams
+        map: Map<String, String>?, referrerParams: TrackParams, params: TrackParams
     ) {
-        if (null != map) {
-            for ((fromKey, toKey) in map) {
-                params.setIfNull(toKey, referrerParams[fromKey])
+        if (map.isNullOrEmpty()) {
+            return
+        }
+        for ((fromKey, toKey) in map) {
+            val toValue = referrerParams[fromKey]
+            if (null != toValue) {
+                params.setIfNull(toKey, toValue)
             }
         }
     }

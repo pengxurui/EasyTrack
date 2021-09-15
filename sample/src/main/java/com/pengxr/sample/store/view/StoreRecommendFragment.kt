@@ -12,6 +12,7 @@ import com.pengxr.ktx.delegate.viewBinding
 import com.pengxr.sample.R
 import com.pengxr.sample.databinding.LayoutFragmentBinding
 import com.pengxr.sample.entity.GoodsItem
+import com.pengxr.sample.statistics.EventConstants.CUR_PAGE
 import com.pengxr.sample.statistics.EventConstants.CUR_TAB
 import com.pengxr.sample.store.vm.StoreHomeViewModel
 import com.pengxr.sample.store.widget.GoodsViewHolder
@@ -61,7 +62,7 @@ class StoreRecommendFragment : Fragment(R.layout.layout_fragment) {
     }
 
     private fun initTrack() {
-        trackNode[CUR_TAB] = "Recommend"
+        trackNode[CUR_PAGE] = "Recommend"
     }
 
     private class GoodsAdapter : RecyclerView.Adapter<GoodsViewHolder>() {

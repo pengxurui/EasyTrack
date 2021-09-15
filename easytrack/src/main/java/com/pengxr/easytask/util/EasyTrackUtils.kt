@@ -58,18 +58,16 @@ fun trackNode(fragment: Fragment): TrackModel {
 // Kotlin TrackNodeProperty
 // -------------------------------------------------------------------------------------
 
-fun <F : Fragment> F.track(): TrackNodeProperty<F> =
-    FragmentTrackNodeProperty()
+fun <F : Fragment> F.track(): TrackNodeProperty<F> = FragmentTrackNodeProperty()
 
 fun RecyclerView.ViewHolder.track(): TrackNodeProperty<RecyclerView.ViewHolder> =
     LazyTrackNodeProperty() viewFactory@{
         return@viewFactory itemView
     }
 
-fun View.track(): TrackNodeProperty<View> =
-    LazyTrackNodeProperty() viewFactory@{
-        return@viewFactory it
-    }
+fun View.track(): TrackNodeProperty<View> = LazyTrackNodeProperty() viewFactory@{
+    return@viewFactory it
+}
 
 // -------------------------------------------------------------------------------------
 // TrackNodeProperty
@@ -235,7 +233,7 @@ private fun DialogFragment.getRootView(viewBindingRootId: Int): View {
 }
 
 /**
- * 制作当前页面的快照节点，传递给后续页面
+ * Params from referrer page note.
  */
 fun Intent.setReferrerSnapshot(node: ITrackModel?) {
     if (null != node) {
@@ -255,15 +253,12 @@ fun Intent.setReferrerSnapshot(params: TrackParams?) {
     }
 }
 
-/**
- * 获取上个页面的快照节点
- */
-fun Intent.getReferrerSnapshot(): TrackParams? {
+fun Intent.getReferrerParams(): TrackParams? {
     return getSerializableExtra(EXTRA_REFERRER_SNAPSHOT) as TrackParams?
 }
 
 /**
- * 依附在 View 上的数据节点
+ * Attach track model on the view.
  */
 var View.trackModel: ITrackModel?
     get() = this.getTag(R.id.tag_id_track_model) as? ITrackModel
@@ -272,14 +267,17 @@ var View.trackModel: ITrackModel?
     }
 
 /**
- * 事件上报
+ * Do event track, it will collect event Params around the node tree.
  */
+@JvmOverloads
 fun ComponentActivity?.trackEvent(eventName: String, params: TrackParams? = null) =
     findRootView(this)?.doTrackEvent(eventName, params)
 
+@JvmOverloads
 fun Fragment?.trackEvent(eventName: String, params: TrackParams? = null) =
     this?.requireView()?.doTrackEvent(eventName, params)
 
+@JvmOverloads
 fun RecyclerView.ViewHolder?.trackEvent(eventName: String, params: TrackParams? = null) {
     this?.itemView?.let {
         if (null == it.parent) {
@@ -290,5 +288,6 @@ fun RecyclerView.ViewHolder?.trackEvent(eventName: String, params: TrackParams? 
     }
 }
 
+@JvmOverloads
 fun View?.trackEvent(eventName: String, params: TrackParams? = null): TrackParams? =
     this?.doTrackEvent(eventName, params)

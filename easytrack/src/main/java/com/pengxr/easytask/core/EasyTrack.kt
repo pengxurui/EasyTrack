@@ -109,7 +109,7 @@ internal fun fillTrackParams(node: Any?, params: TrackParams? = null): TrackPara
                     if (activity is IPageTrackNode) {
                         // Activity node.
                         activity.fillTrackParams(result)
-                        curNode = activity.referrerTrackNode()
+                        curNode = activity.referrerSnapshot()
                     } else {
                         curNode = null
                     }

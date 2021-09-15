@@ -13,9 +13,8 @@ abstract class BaseActivity : BaseTrackActivity() {
     @CallSuper
     override fun fillTrackParams(params: TrackParams) {
         super.fillTrackParams(params)
-        params.merge(mTrackParams)
         getCurPage()?.also {
-            params[CUR_PAGE] = it
+            params.setIfNull(CUR_PAGE, it)
         }
     }
 
