@@ -10,6 +10,10 @@ import com.pengxr.sample.statistics.EventConstants.CUR_PAGE
  */
 abstract class BaseActivity : BaseTrackActivity() {
 
+    // ---------------------------------------------------------------------------------------------
+    // BaseTrackActivity
+    // ---------------------------------------------------------------------------------------------
+
     @CallSuper
     override fun fillTrackParams(params: TrackParams) {
         super.fillTrackParams(params)

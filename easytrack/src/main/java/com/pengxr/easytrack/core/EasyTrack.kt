@@ -8,7 +8,7 @@ import com.pengxr.easytrack.util.trackModel
 /**
  * Created by pengxr on 2021/8/18.
  */
-internal const val TAG = "StatisticsLib"
+internal const val TAG = "EasyTrackLib"
 
 class EasyTrack {
     companion object {
