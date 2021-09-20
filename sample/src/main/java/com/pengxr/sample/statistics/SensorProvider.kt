@@ -35,6 +35,8 @@ class SensorProvider : ITrackProvider() {
      */
     override fun onInit() {
         Log.d(TAG, "Init Sensor provider.")
+
+        registerSuperProperties()
     }
 
     /**
@@ -42,8 +44,6 @@ class SensorProvider : ITrackProvider() {
      */
     override fun onEvent(eventName: String, params: TrackParams) {
         Log.d(TAG, params.toString())
-
-        registerSuperProperties()
     }
 
     private fun registerSuperProperties() {

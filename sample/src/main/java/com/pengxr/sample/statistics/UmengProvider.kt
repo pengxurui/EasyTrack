@@ -35,6 +35,8 @@ class UmengProvider : ITrackProvider() {
      */
     override fun onInit() {
         Log.d(TAG, "Init Umeng provider.")
+
+        registerSuperProperties()
     }
 
     /**
@@ -42,8 +44,6 @@ class UmengProvider : ITrackProvider() {
      */
     override fun onEvent(eventName: String, params: TrackParams) {
         Log.d(TAG, params.toString())
-
-        registerSuperProperties()
     }
 
     private fun registerSuperProperties() {
