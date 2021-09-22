@@ -270,7 +270,7 @@ var View.trackModel: ITrackModel?
  * Do event track, it will collect event Params around the node tree.
  */
 @JvmOverloads
-fun ComponentActivity?.trackEvent(eventName: String, params: TrackParams? = null) =
+fun Activity?.trackEvent(eventName: String, params: TrackParams? = null) =
     findRootView(this)?.doTrackEvent(eventName, params)
 
 @JvmOverloads

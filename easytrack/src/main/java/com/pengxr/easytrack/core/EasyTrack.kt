@@ -71,25 +71,28 @@ internal fun Any.doTrackEvent(eventName: String, otherParams: TrackParams? = nul
         return otherParams
     }
     // 3. Log.
-    if (EasyTrack.debug) {
-        val logStr = StringBuilder().apply {
+    val logStrBuilder = if (EasyTrack.debug) {
+        StringBuilder().apply {
             append(" ")
             append("\nonEvent：$eventName")
             for ((key, value) in params) {
                 append("\n$key = $value")
             }
-            append("\n------------------------------------------------------")
-        }.toString()
-        Log.d(TAG, logStr)
+        }
+    } else {
+        null
     }
     // 4. Do event reporting.
     for (provider in EasyTrack.providers) {
         if (!provider.enabled) {
-            Log.d(TAG, "Try track event $eventName, but the provider is disabled.")
+            logStrBuilder?.append("\nTry track event $eventName, but the provider is disabled.")
             continue
         }
-        Log.d(TAG, "Try track event $eventName with provider ${provider.name}.")
+        logStrBuilder?.append("\nTry track event $eventName with provider ${provider.name}.")
         provider.onEvent(eventName, params)
+    }
+    logStrBuilder?.append("\n------------------------------------------------------")?.also {
+        Log.d(TAG, it.toString())
     }
     return params
 }
