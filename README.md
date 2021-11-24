@@ -1,5 +1,7 @@
 # EasyTrack
 
+[![](https://www.jitpack.io/v/pengxurui/EasyTrack.svg)](https://www.jitpack.io/#pengxurui/EasyTrack)
+
 # 前言
 
 - 目前，几乎每个商用应用都有数据埋点的需求。你的 App 是怎么做埋点的呢，有遇到让你 “难顶” 的问题吗？
