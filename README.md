@@ -4,7 +4,12 @@
   <a>
     <img src="https://www.jitpack.io/v/pengxurui/EasyTrack.svg">
   </a>
+  <a href="https://www.github.com/pengxurui" target="_blank">
+    <img src="https://komarev.com/ghpvc/?username=pengxurui&style=flat&label=👁%20Views">
+  </a>
 </p>
+
+
 <p align='center'>
   <a href="https://www.github.com/pengxurui" target="_blank">
     <img src="https://img.shields.io/badge/作者-@小彭-brightgreen.svg?style=flat&logo=GitHub">
